@@ -1,4 +1,3 @@
 LDA
 ===
-
-A basic implementation of Linear Discriminant Analysis (LDA) which can be used for binary classification
+Implementation of Linear Discriminant Analysis (LDA) algorithm which can be used for binary classification of multivariate data.
