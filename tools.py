@@ -4,9 +4,11 @@ vectors, strings, etc. I have added a lot of stuff in it, and a little is used a
 You are free to take and use anything you like.
 """
 from __future__ import division
+import sys
 import random
 from numpy.linalg import inv
 import math
+sys.dont_write_bytecode = True
 
 #addition of list items using recursion for both flat and not-flat lists
 def add_rec(x):

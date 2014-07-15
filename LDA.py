@@ -4,6 +4,7 @@ import math
 import shelve
 import random
 from time import time
+sys.dont_write_bytecode = True
 
 #local imports
 from tools import fmin, Functions
