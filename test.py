@@ -1,11 +1,12 @@
+from __future__ import division
 import sys
+import copy
 sys.dont_write_bytecode = True
 
 """
 Testing LDA
 """
 def test_LDA():
-    import copy
     from LDA import LDA
     x = [
         [2.95, 6.63],
@@ -24,5 +25,28 @@ def test_LDA():
         print max(r, key=r.get)
     
 
-test_LDA()
-    
+"""
+Testing multiclass LDA
+"""
+def test_multiclass_LDA():
+    from LDA import multiclass_LDA
+    from sklearn import datasets
+    print 'data loaded..'
+    iris = datasets.load_iris()
+    x = iris['data']
+    y = iris['target']
+    l = copy.deepcopy(x)
+    m = copy.deepcopy(y)
+    t = multiclass_LDA(x, y)
+    t.predict(l[2])
+    return t
+
+#t = test_LDA()
+#t  = test_multiclass_LDA()
+
+if __name__ == '__main__':
+    method_to_test = sys.argv[1]
+    if method_to_test == 'LDA':
+        test_LDA()
+    elif method_to_test == 'multiclass_LDA':
+        test_multiclass_LDA()

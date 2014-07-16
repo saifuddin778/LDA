@@ -3,6 +3,7 @@ import sys
 import math
 import shelve
 import random
+import copy
 from time import time
 sys.dont_write_bytecode = True
 
@@ -60,6 +61,7 @@ class LDA(object):
     def substract_mean(self, group_point):
         for i, a in enumerate(group_point):
             group_point[i] = group_point[i] - self.mean_global[i]
+        
         return group_point
 
     #--gets the covariance matrix for a dataset/group (t(x).x/len(x))
@@ -130,5 +132,89 @@ class LDA(object):
         else:
             return predictions
 
+
+"""
+A good way to approach multiclass LDA is to get the discriminant output pairwise i.e.
+form N(N-1)/2 pairs for the sample dataset, where N is the number of of classes involved
+and find classifications for each pair and then combine them to have the final output.
+"""
+class multiclass_LDA(object):
+    def __init__(self, x, y):
+        self.funcs_ = funcs_
+        if self.funcs_.verify_dimensions(x):
+            if len(x) == len(y):
+                self.x  = x
+                self.y = y
+                self.process_sets()
+            else:
+                sys.exit()
+        else:
+            print 'data dimensions inaccurate..exiting.'
+            sys.exit()
+    
+    #returns N(N-1)/2 pairs/combinations of the classes involved.
+    def get_combinations(self, unique_labels):
+        g = []
+        for i, a in enumerate(unique_labels):
+            current_ = unique_labels[i]
+            for e, b in enumerate(unique_labels):
+                if e > i:
+                    g.append([unique_labels[i], unique_labels[e]])
+        return g
+
+    #for separating data based on classes (not used any more)
+    def separate_data(self, combined):
+        #sort all the classes so that no fuss is there
+        combined = sorted(combined, key=lambda n: n[1])
+        for i, a in enumerate(combined):
+            self.separated_features[combined[i][1]].append(combined[i][0])
+            self.separated_labels[combined[i][1]].append(combined[i][1])
+
+    #returns data based on the given binary class combination (a,b)
+    def get_x(self, current_):
+        result = []
+        for a,b in zip(self.x, self.y):
+            if b in current_:
+                result.append(copy.deepcopy(a))
+        return result
+
+    #returns labels based on the given binary class combination (a, b)
+    def get_y(self, current_):
+        result = []
+        for i, a in enumerate(self.y):
+            if self.y[i] in current_:
+                result.append(copy.deepcopy(self.y[i]))
+        return result
+
+    #processes each set
+    def process_sets(self):
+        self.unique_labels = list(set(self.y))
+        #self.separated_features = dict([(k, []) for k in self.unique_labels])
+        #self.separated_labels = dict([(k, []) for k in self.unique_labels])
+        #self.separate_data(zip(self.x, self.y))
+        self.combinations = self.get_combinations(self.unique_labels)
+        self.classifiers = {}
+
+        #training a classifier for each pair
+        for a in self.combinations:
+            import time as qt
+            x_ = []
+            y_ = []
+            current_ = a
+            x_ = self.get_x(current_)
+            y_ = self.get_y(current_)
+            self.classifiers[tuple(a)] = LDA(x_,y_)
+
+    #predictions from each classifier
+    def predict(self, v):
+        t = []
+        for key, value in self.classifiers.iteritems():
+            t.append(self.classifiers[key].predict(v))
+        return t
+
+
+        
+        
+    
 
 
