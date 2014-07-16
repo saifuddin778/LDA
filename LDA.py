@@ -6,17 +6,17 @@ import random
 import copy
 from time import time
 sys.dont_write_bytecode = True
+__author__ = "Saifuddin Abdullah"
 
 #local imports
 from tools import fmin, Functions
-
 funcs_ = Functions()
 
-__author__ = "Saifuddin Abdullah"   
-
-#--implementation of linear discriminant analysis for binary classification tasks.
-#--Any improvement or such suggestions will be honored. :-)
-#--provide features (x's) which can have any dimensions, and a set of 1d y's or observations.
+"""
+Implementation of linear discriminant analysis for binary classification tasks.
+Any improvement or such suggestions will be honored. :-)
+provide features (x's) which can have any dimensions, and a set of 1d y's or observations.
+"""
 class LDA(object):
     """"Linear discriminant analysis for multiclass/binary classification (x(i), y(i))"""
     def __init__(self, x, y):
