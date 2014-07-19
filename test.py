@@ -38,13 +38,15 @@ def test_multiclass_LDA():
     l = copy.deepcopy(x)
     m = copy.deepcopy(y)
     t = multiclass_LDA(x, y)
-    t.predict(l[2])
-    return t
+    for a,b in zip(l, m):
+        print t.predict(a), b
+    
 
 #t = test_LDA()
 #t  = test_multiclass_LDA()
 
-if __name__ == '__main__':
+if __name__ == '__main__' and len(sys.argv) == 2:
+    print sys.argv
     method_to_test = sys.argv[1]
     if method_to_test == 'LDA':
         test_LDA()

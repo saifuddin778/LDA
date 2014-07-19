@@ -1,8 +1,6 @@
 from __future__ import division
 import sys
 import math
-import shelve
-import random
 import copy
 from time import time
 sys.dont_write_bytecode = True
@@ -27,7 +25,6 @@ class LDA(object):
                 self.len_all = len(x)
                 self.dmean_ = self.funcs_.mean_nm(x, axis=0)
                 self.std_ = self.funcs_.std_nm(x, axis=0)
-                #self.x = self.funcs_.normalize_(x)
                 self.x = x
                 self.y = y
                 self.separate_sets()
@@ -206,11 +203,19 @@ class multiclass_LDA(object):
             self.classifiers[tuple(a)] = LDA(x_,y_)
 
     #predictions from each classifier
-    def predict(self, v):
+    def predict(self, v, key_only=True):
+        candidates = dict([(k, 0) for k in self.unique_labels])
         t = []
         for key, value in self.classifiers.iteritems():
             t.append(self.classifiers[key].predict(v))
-        return t
+        for a in t:
+            winner_ = max(a, key=a.get)
+            candidates[winner_] += 1
+
+        if key_only:
+            return max(candidates, key=candidates.get)
+        else:
+            return t
 
 
         
