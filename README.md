@@ -1,7 +1,7 @@
 LDA
 ===
 Implementation of Linear Discriminant Analysis (LDA) algorithm which can be used for binary classification of multivariate data.
-###Conventional LDA (for 2 classes):
+###Basic LDA (for 2 classes):
 ```python
 >>> from LDA import LDA
 >>> t = LDA([[2.4, 5.4, 3.3], [5, 6.6, 3.4], [2.1, 2.4, 2.5], [5, 3.1, 6]], ['A', 'A', 'B', 'B'])
