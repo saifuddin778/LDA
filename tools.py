@@ -376,7 +376,7 @@ class Functions(object):
             vec[i] = vec[i] * q
         return vec
 
-    #multiplies a column vector x with matrix y
+    #multiplies a column vector x with matrix y (mat mul)
     def prod(self, x, y):
         result = []
         for a in y:
