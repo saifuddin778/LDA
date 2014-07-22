@@ -183,7 +183,7 @@ class multiclass_LDA(object):
                 result.append(copy.deepcopy(self.y[i]))
         return result
 
-    #processes each set
+    #processes each set of classifiers
     def process_sets(self):
         self.unique_labels = list(set(self.y))
         #self.separated_features = dict([(k, []) for k in self.unique_labels])
@@ -202,7 +202,7 @@ class multiclass_LDA(object):
             y_ = self.get_y(current_)
             self.classifiers[tuple(a)] = LDA(x_,y_)
 
-    #predictions from each classifier
+    #return predictions from each classifier
     def predict(self, v, key_only=True):
         candidates = dict([(k, 0) for k in self.unique_labels])
         t = []
